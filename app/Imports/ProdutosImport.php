@@ -5,9 +5,10 @@ namespace App\Imports;
 use App\Produto;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
     
-class ProdutosImport implements ToModel, WithHeadingRow, withChunkReading
+class ProdutosImport implements ToModel, WithHeadingRow, withChunkReading, ShouldQueue
 {
     /**
     * @param array $row
