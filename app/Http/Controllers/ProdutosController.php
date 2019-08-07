@@ -7,8 +7,6 @@ use App\Exports\ProdutosExport;
 use App\Imports\ProdutosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Produto;
-
-use App\User;
   
 class ProdutosController extends Controller
 {
@@ -27,17 +25,8 @@ class ProdutosController extends Controller
     {
 
 
-        return Excel::download(new ProdutosExport, 'users.xlsx');
-           //  $produtos=Produto::query()
-           // ->get()
-           // ->all();
+        return Excel::download(new ProdutosExport, 'produtos.xlsx');
 
-
-           // foreach ($produtos as $produto ) {
-           //    return response()->json($produto);
-           //    //echo $produto;
-           // }
-           
     }
    
     /**
@@ -45,19 +34,14 @@ class ProdutosController extends Controller
     */
     public function import(Request $request) 
     {
+      $request->validate
+      ([
+         'file' => 'required'
+      ]);
 
-      // try {
+       Excel::import(new ProdutosImport,request()->file('file'));
+       echo "Planilha executada com sucesso";
 
-      //       if (!$request->hasFile('file')) {
-      //         echo "Arquivo não encontrado";
-      //           //return response()->json(['message' => 'Arquivo não encontrado']);
-      //       } else {
-              Excel::import(new ProdutosImport,request()->file('file'));
-              echo "Planilha executada com sucesso";
-           // }
-        
-
-        //return back();
     }
 
     public function index ()
@@ -71,24 +55,16 @@ class ProdutosController extends Controller
     public function destroy(Request $request)
     {
       Produto::destroy($request->id);
-      echo "Produto {id} excluído com sucesso";
+      echo "Produto excluído com sucesso";
     }
 
 
-    // public function show(Request $request)
-    // {
-
-    //   return $id;
-    //   // $produto = Produto::query()
-    //   // return $id;
-    // }
-
     public function update (Request $request)
     {
-      //Produto::update($request->id);
+
       
       Produto::whereId($request->id)->update($request->all());
       
-      echo "Produto {id} atualizado com sucesso";
+      echo "Produto atualizado com sucesso";
     }
 }
