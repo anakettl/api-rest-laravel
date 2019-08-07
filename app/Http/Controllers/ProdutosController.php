@@ -60,9 +60,35 @@ class ProdutosController extends Controller
         //return back();
     }
 
-    public function buscar ()
+    public function index ()
     {
       $produtos = Produto::all();
-      var_dump($produtos);
+      return response()->json($produtos);
+      //var_dump($produtos);
+    }
+
+
+    public function destroy(Request $request)
+    {
+      Produto::destroy($request->id);
+      echo "Produto {id} excluído com sucesso";
+    }
+
+
+    // public function show(Request $request)
+    // {
+
+    //   return $id;
+    //   // $produto = Produto::query()
+    //   // return $id;
+    // }
+
+    public function update (Request $request)
+    {
+      //Produto::update($request->id);
+      
+      Produto::whereId($request->id)->update($request->all());
+      
+      echo "Produto {id} atualizado com sucesso";
     }
 }

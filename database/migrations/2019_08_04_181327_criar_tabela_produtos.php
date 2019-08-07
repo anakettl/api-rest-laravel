@@ -14,11 +14,12 @@ class CriarTabelaProdutos extends Migration
     public function up()
     {
         Schema::create('produtos', function(Blueprint $table){
-           $table->integer('lm');
-           $table->string('name');
-           $table->boolean('free_shipping');
-           $table->string('description');
-           $table->float('price');
+            $table->increments('id');
+            $table->integer('lm');
+            $table->string('name');
+            $table->boolean('free_shipping');
+            $table->string('description');
+            $table->float('price');
            //passa o tipo de dado e o nome da coluna, pode passar tbm o tamanho
 
         });
