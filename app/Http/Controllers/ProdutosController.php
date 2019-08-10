@@ -7,6 +7,10 @@ use App\Exports\ProdutosExport;
 use App\Imports\ProdutosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Produto;
+use App\Services\AtualizadorDeProduto;
+use App\Services\RemovedorDeProduto;
+
+
   
 class ProdutosController extends Controller
 {
@@ -52,19 +56,44 @@ class ProdutosController extends Controller
     }
 
 
-    public function destroy(Request $request)
+    // public function destroy(Request $request)
+    // {
+    //   Produto::destroy($request->id);
+    //   echo "Produto excluído com sucesso";
+    // }
+
+
+    public function destroy(Request $request, RemovedorDeProduto $RemovedorDeProduto)
     {
-      Produto::destroy($request->id);
+
+      $nomeProduto = $RemovedorDeProduto->RemoverProduto($request->id);
       echo "Produto excluído com sucesso";
     }
 
-
-    public function update (Request $request)
+    public function update (Request $request, AtualizadorDeProduto $AtualizadorDeProduto)
     {
+      $produto = $AtualizadorDeProduto->AtualizarProduto(
+            $request->id, 
+            $request->lm,
+            $request->name, 
+            $request->free_shipping,
+            $request->description, 
+            $request->price);
+
+    echo "Produto atualizado com sucesso";
+    }
+
+
+
+
+
+
+    // public function update (Request $request)
+    // {
 
       
-      Produto::whereId($request->id)->update($request->all());
+    //   Produto::whereId($request->id)->update($request->all());
       
-      echo "Produto atualizado com sucesso";
-    }
+    //   echo "Produto atualizado com sucesso";
+    // }
 }

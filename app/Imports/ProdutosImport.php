@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+//use App\Imports\ProdutosImport;
     
 class ProdutosImport implements ToModel, WithHeadingRow, withChunkReading, ShouldQueue
 {
