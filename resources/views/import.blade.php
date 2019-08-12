@@ -16,8 +16,8 @@
                 @csrf
                 <input type="file" name="file" class="form-control">
                 <br>
-                <button class="btn btn-success">Importar Produtos</button>
-                <a class="btn btn-warning" href="{{ route('export') }}">Visualizar produtos</a>
+                <button class="btn btn-success">Importar Planilha</button>
+              
             </form>
         </div>
     </div>

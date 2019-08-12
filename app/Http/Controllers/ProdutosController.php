@@ -17,21 +17,21 @@ class ProdutosController extends Controller
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function importExportView()
+    public function importView()
     {
-       return view('importExport');
+       return view('import');
     }
    
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function export(Request $request) 
-    {
+    // /**
+    // * @return \Illuminate\Support\Collection
+    // */
+    // public function export(Request $request) 
+    // {
 
 
-        return Excel::download(new ProdutosExport, 'produtos.xlsx');
+    //     return Excel::download(new ProdutosExport, 'produtos.xlsx');
 
-    }
+    // }
    
     /**
     * @return \Illuminate\Support\Collection
