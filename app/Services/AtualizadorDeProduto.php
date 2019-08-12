@@ -21,14 +21,7 @@ class AtualizadorDeProduto {
 			'description' => $description,
 			'price' => $price
 		]);
-	            // 'name'    => $name, 
-	            // 'free_shipping' => $free_shipping,
-	            // 'description' => $description,
-	            // 'price' => $price
-	        //);
-		 	
-
-		//return $produto;
+	          
 	}
 
 }
