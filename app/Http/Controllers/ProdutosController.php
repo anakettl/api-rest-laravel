@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
   
 use Illuminate\Http\Request;
-use App\Exports\ProdutosExport;
 use App\Imports\ProdutosImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Produto;
@@ -41,26 +40,30 @@ class ProdutosController extends Controller
     public function index ()
     {
       $produtos = Produto::all();
-      return response()->json($produtos);     
+      return response()
+      ->json($produtos);     
     }
 
-    public function show($id)
+    public function show(int $id)
     {    
       $produto = Produto::find($id);
       try {
             if(!$produto) 
             {
-              return response()->json(['msg'=>'Produto nao encontrado!'],404);
+              return response()
+              ->json(['msg'=>'Produto nao encontrado!'],404);
             } 
             else 
             {
-              return response()->json($produto);
+              return response()
+              ->json($produto);
             }
           }
       catch (\Exception $e){
             if(config('app.debug'))
             {
-              return response()->json($e->getMessage(),1012);
+              return response()
+              ->json($e->getMessage(),1012);
             } 
             else 
             {
@@ -74,10 +77,9 @@ class ProdutosController extends Controller
 
     public function destroy(int $id, Request $request, RemovedorDeProduto $RemovedorDeProduto)
     {
-        //$id = $request->id;
-        $produto = Produto::find($id);
-        //var_dump($produto);
-      
+        
+    $produto = Produto::find($id);
+   
     try {
             if(!$produto) 
             {
@@ -117,23 +119,28 @@ class ProdutosController extends Controller
             } 
             else 
             {
-              $produto = $AtualizadorDeProduto
-                ->AtualizarProduto(
-                        $request->id, 
-                        $request->lm,
-                        $request->name, 
-                        $request->free_shipping,
-                        $request->description, 
-                        $request->price);
+              $dados = $request->all();
+
+              if(!$dados)
+              {
+                return response()->json(['msg'=>'Digite ao menos um valor'],404);
+              }
+              else 
+              {
+                $produto = $AtualizadorDeProduto
+                ->AtualizarProduto($id, $dados);
                 return response()
                 ->json(['msg'=> 'Produto atualizado com sucesso'],200);
+
+              }
+
             }
           }
 
       catch (\Exception $e){
             if(config('app.debug'))
             {
-              return response()->json($e->getMessage(),1010);
+              return response()->json($e->getMessage(),500);
             } 
             else 
             {
