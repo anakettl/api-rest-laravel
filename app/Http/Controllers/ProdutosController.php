@@ -14,6 +14,7 @@ use App\Services\RemovedorDeProduto;
   
 class ProdutosController extends Controller
 {
+   
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -22,17 +23,7 @@ class ProdutosController extends Controller
        return view('import');
     }
    
-    // /**
-    // * @return \Illuminate\Support\Collection
-    // */
-    // public function export(Request $request) 
-    // {
-
-
-    //     return Excel::download(new ProdutosExport, 'produtos.xlsx');
-
-    // }
-   
+      
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -45,55 +36,113 @@ class ProdutosController extends Controller
 
        Excel::import(new ProdutosImport,request()->file('file'));
        echo "Planilha executada com sucesso";
-
     }
 
     public function index ()
     {
       $produtos = Produto::all();
-      return response()->json($produtos);
-      //var_dump($produtos);
+      return response()->json($produtos);     
+    }
+
+    public function show($id)
+    {    
+      $produto = Produto::find($id);
+      try {
+            if(!$produto) 
+            {
+              return response()->json(['msg'=>'Produto nao encontrado!'],404);
+            } 
+            else 
+            {
+              return response()->json($produto);
+            }
+          }
+      catch (\Exception $e){
+            if(config('app.debug'))
+            {
+              return response()->json($e->getMessage(),1012);
+            } 
+            else 
+            {
+              return response()
+              ->json(['msg'=> 'Houve um erro ao mostrar o produto'],1012);
+            }     
+          }
     }
 
 
-    // public function destroy(Request $request)
-    // {
-    //   Produto::destroy($request->id);
-    //   echo "Produto excluído com sucesso";
-    // }
 
-
-    public function destroy(Request $request, RemovedorDeProduto $RemovedorDeProduto)
+    public function destroy(int $id, Request $request, RemovedorDeProduto $RemovedorDeProduto)
     {
+        //$id = $request->id;
+        $produto = Produto::find($id);
+        //var_dump($produto);
+      
+    try {
+            if(!$produto) 
+            {
+              return response()->json(['msg'=>'Produto nao encontrado!'],404);
+            } 
+            else 
+            {
+              $nomeProduto = $RemovedorDeProduto->RemoverProduto($id);
+              return response()
+              ->json(['msg'=> 'Produto excluido com sucesso'],200);
+            }
+          }
 
-      $nomeProduto = $RemovedorDeProduto->RemoverProduto($request->id);
-      echo "Produto excluído com sucesso";
+    catch (\Exception $e){
+            if(config('app.debug'))
+            {
+              return response()->json($e->getMessage(),1011);
+            } 
+            else 
+            {
+              return response()
+              ->json(['msg'=> 'Houve um erro ao excluir o produto'],1011);
+            }     
+          }
     }
 
-    public function update (Request $request, AtualizadorDeProduto $AtualizadorDeProduto)
+
+
+    public function update (int $id, Request $request, AtualizadorDeProduto $AtualizadorDeProduto)
     {
-      $produto = $AtualizadorDeProduto->AtualizarProduto(
-            $request->id, 
-            $request->lm,
-            $request->name, 
-            $request->free_shipping,
-            $request->description, 
-            $request->price);
+      $id = $request->id;
+      $produto = Produto::find($id);
+       try {
+            if(!$produto) 
+            {
+              return response()->json(['msg'=>'Produto nao encontrado!'],404);
+            } 
+            else 
+            {
+              $produto = $AtualizadorDeProduto
+                ->AtualizarProduto(
+                        $request->id, 
+                        $request->lm,
+                        $request->name, 
+                        $request->free_shipping,
+                        $request->description, 
+                        $request->price);
+                return response()
+                ->json(['msg'=> 'Produto atualizado com sucesso'],200);
+            }
+          }
 
-    echo "Produto atualizado com sucesso";
+      catch (\Exception $e){
+            if(config('app.debug'))
+            {
+              return response()->json($e->getMessage(),1010);
+            } 
+            else 
+            {
+              return response()
+              ->json(['msg'=> 'Houve um erro ao atualizar o produto'],1010);
+            }   
+          }
+     
+   
     }
 
-
-
-
-
-
-    // public function update (Request $request)
-    // {
-
-      
-    //   Produto::whereId($request->id)->update($request->all());
-      
-    //   echo "Produto atualizado com sucesso";
-    // }
 }
