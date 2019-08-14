@@ -63,12 +63,12 @@ class ProdutosController extends Controller
             if(config('app.debug'))
             {
               return response()
-              ->json($e->getMessage(),1012);
+              ->json($e->getMessage(),500);
             } 
             else 
             {
               return response()
-              ->json(['msg'=> 'Houve um erro ao mostrar o produto'],1012);
+              ->json(['msg'=> 'Houve um erro ao mostrar o produto'],500);
             }     
           }
     }
@@ -96,12 +96,12 @@ class ProdutosController extends Controller
     catch (\Exception $e){
             if(config('app.debug'))
             {
-              return response()->json($e->getMessage(),1011);
+              return response()->json($e->getMessage(),500);
             } 
             else 
             {
               return response()
-              ->json(['msg'=> 'Houve um erro ao excluir o produto'],1011);
+              ->json(['msg'=> 'Houve um erro ao excluir o produto'],500);
             }     
           }
     }
@@ -145,7 +145,7 @@ class ProdutosController extends Controller
             else 
             {
               return response()
-              ->json(['msg'=> 'Houve um erro ao atualizar o produto'],1010);
+              ->json(['msg'=> 'Houve um erro ao atualizar o produto'],500);
             }   
           }
      
