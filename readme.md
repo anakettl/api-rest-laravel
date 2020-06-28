@@ -22,7 +22,7 @@ Após, baixe a pasta zipada ou clone o repositório, envie a pasta para a pasta 
 Para rodar os comandos do php artisan acesse via terminal a pasta do projeto.
 
 
-Configuração do banco de dados
+<b>Configuração do banco de dados</b>
 
 O banco de dados foi criado em sqlite e o arquivo já consta no projeto, caso seja necessário modificar a conexão com o banco, basta alterar o arquivo .env, excluir o arquivo database.sqlite e rodar as migrations no terminal com o comando do composer php artisan migrate:refresh.
 
